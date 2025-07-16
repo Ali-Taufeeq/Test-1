@@ -1,0 +1,51 @@
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.expected_conditions import visibility_of_element_located
+from selenium.webdriver.support.wait import WebDriverWait as EC, WebDriverWait
+
+driver= webdriver.Chrome()
+driver.implicitly_wait(5)
+driver.get("https://rahulshettyacademy.com/loginpagePractise/")
+
+#page 1:
+driver.find_element(By.CSS_SELECTOR,".form-control").send_keys("rahulshettyacademy") # I.D
+driver.find_element(By.NAME,"password").send_keys("learning")
+driver.find_element(By.NAME,"terms").click()
+driver.find_element(By.CSS_SELECTOR,".btn-md").click()
+
+#page 2:
+driver.find_element(By.XPATH,"/html/body/app-root/app-shop/div/div/div[2]/app-card-list/app-card[2]/div/div[2]/button").click()
+driver.find_element(By.CSS_SELECTOR,"body > app-root > app-shop > div > div > div.col-lg-9 > app-card-list > app-card:nth-child(1) > div > div.card-footer > button").click()
+driver.find_element(By.CSS_SELECTOR,"body > app-root > app-shop > div > div > div.col-lg-9 > app-card-list > app-card:nth-child(4) > div > div.card-footer > button").click()
+
+wait= WebDriverWait(driver,5)
+try:
+    failure = wait.until(EC.until(visibility_of_element_located(By.XPATH,'//*[@id="username"]')))
+    print(failure.text)
+except:
+    pass
+driver.find_element(By.CSS_SELECTOR,".nav-link.btn.btn-primary").click() #checkout
+
+try:
+    alert= driver.switch_to.alert
+    alert_text = alert.text
+    print(alert.text)
+    alert.accept()
+except:
+    pass
+
+#page 3:
+driver.find_element(By.CSS_SELECTOR,"nav-link.btn.btn-primary").click()
+
+#PAGE 4:
+driver.find_element(By.CSS_SELECTOR,"validate.filter-input.form-control.ng-pristine.ng-valid.ng-touched").click()
+driver.find_element(By.CSS_SELECTOR,"validate.filter-input.form-control.ng-pristine.ng-valid.ng-touched").send_keys("ind")
+wait = WebDriverWait(driver,10)
+country = wait.until(EC.visibility_of_element_located(By.CSS_SELECTOR,"By.LINK_TEXT,'India').is_displayed()"))
+assert driver.find_element(By.LINK_TEXT,"India").click()
+
+driver.find_element(By.ID,"checkbox2").click() #click to agree
+driver.find_element(By.CSS_SELECTOR,".btn.btn-success.btn-lg") #proceed to buy
+Bought = driver.find_element(By.CSS_SELECTOR,".alert-dismissible")
+print(Bought.text)
